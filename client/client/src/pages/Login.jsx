@@ -11,7 +11,9 @@ export default function Login() {
   const navigate = useNavigate();
   const mockLogin = useAuthStore((state) => state.mockLogin);
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault();
+
     if (!name.trim()) {
       setError("Please enter your name");
       return;
@@ -66,9 +68,9 @@ export default function Login() {
       position: "relative",
       zIndex: 10,
       width: "100%",
-      maxWidth: "480px",
+      maxWidth: "430px",
       margin: "0 16px",
-      padding: "40px",
+      padding: "clamp(20px, 2.6vw, 30px)",
       backgroundColor: "rgba(255, 255, 255, 0.05)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       borderRadius: "24px",
@@ -76,13 +78,13 @@ export default function Login() {
     },
     logoContainer: {
       textAlign: "center",
-      marginBottom: "32px",
+      marginBottom: "24px",
     },
     logoRow: {
       display: "inline-flex",
       alignItems: "center",
       gap: "8px",
-      marginBottom: "24px",
+      marginBottom: "18px",
     },
     logoIcon: {
       width: "40px",
@@ -97,10 +99,10 @@ export default function Login() {
     },
     title: {
       fontFamily: "Chillax, sans-serif",
-      fontSize: "36px",
+      fontSize: "clamp(34px, 4.3vw, 44px)",
       fontWeight: 500,
       color: "#fff",
-      marginBottom: "12px",
+      marginBottom: "10px",
       letterSpacing: "-2px",
     },
     subtitle: {
@@ -110,7 +112,7 @@ export default function Login() {
     form: {
       display: "flex",
       flexDirection: "column",
-      gap: "20px",
+      gap: "16px",
     },
     inputGroup: {
       display: "flex",
@@ -124,18 +126,20 @@ export default function Login() {
     },
     input: {
       width: "100%",
-      padding: "14px 16px",
+      padding: "12px 14px",
       backgroundColor: "rgba(255, 255, 255, 0.05)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       borderRadius: "12px",
       color: "#fff",
-      fontSize: "16px",
+      fontSize: "15px",
       outline: "none",
       transition: "all 0.2s ease",
       boxSizing: "border-box",
     },
     roleSection: {
-      marginTop: "8px",
+      marginTop: "4px",
+      border: "none",
+      padding: 0,
     },
     roleLabel: {
       fontSize: "14px",
@@ -147,30 +151,34 @@ export default function Login() {
     roleGrid: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
-      gap: "12px",
+      gap: "10px",
     },
     roleCard: {
-      padding: "20px",
+      padding: "16px",
       borderRadius: "16px",
       border: "2px solid rgba(255, 255, 255, 0.1)",
       backgroundColor: "rgba(255, 255, 255, 0.03)",
       cursor: "pointer",
       transition: "all 0.2s ease",
       textAlign: "center",
+      color: "inherit",
+      width: "100%",
     },
     roleCardSelected: {
-      padding: "20px",
+      padding: "16px",
       borderRadius: "16px",
       border: "2px solid #fcff66",
       backgroundColor: "rgba(252, 255, 102, 0.1)",
       cursor: "pointer",
       transition: "all 0.2s ease",
       textAlign: "center",
+      color: "inherit",
+      width: "100%",
     },
     roleIcon: {
-      width: "48px",
-      height: "48px",
-      margin: "0 auto 12px",
+      width: "42px",
+      height: "42px",
+      margin: "0 auto 10px",
       borderRadius: "12px",
       display: "flex",
       alignItems: "center",
@@ -184,7 +192,7 @@ export default function Login() {
     },
     roleTitle: {
       fontFamily: "Chillax, sans-serif",
-      fontSize: "18px",
+      fontSize: "17px",
       fontWeight: 500,
       color: "#fff",
       marginBottom: "4px",
@@ -211,17 +219,17 @@ export default function Login() {
       color: "#000",
       border: "none",
       borderRadius: "48px",
-      padding: "16px 24px",
-      fontSize: "16px",
+      padding: "14px 22px",
+      fontSize: "15px",
       fontWeight: 500,
       cursor: loading ? "not-allowed" : "pointer",
       opacity: loading ? 0.5 : 1,
       transition: "all 0.2s ease",
-      marginTop: "8px",
+      marginTop: "4px",
     },
     footer: {
-      marginTop: "24px",
-      paddingTop: "20px",
+      marginTop: "18px",
+      paddingTop: "16px",
       borderTop: "1px solid rgba(255, 255, 255, 0.1)",
       textAlign: "center",
     },
@@ -237,12 +245,12 @@ export default function Login() {
       borderRadius: "20px",
       fontSize: "11px",
       color: "#fcff66",
-      marginBottom: "24px",
+      marginBottom: "18px",
     },
   };
 
   return (
-    <div style={styles.container}>
+    <main style={styles.container} aria-labelledby="login-title">
       <div style={styles.bgBlob1}></div>
       <div style={styles.bgBlob2}></div>
 
@@ -259,21 +267,25 @@ export default function Login() {
             </svg>
             <span style={styles.logoText}>CRCEQuiz</span>
           </div>
-          <h1 style={styles.title}>Get Started</h1>
+          <h1 id="login-title" style={styles.title}>Get Started</h1>
           <p style={styles.subtitle}>
             Enter your details and select your role to continue
           </p>
         </div>
 
-        <div style={styles.form}>
+        <form style={styles.form} onSubmit={handleLogin} noValidate>
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Your Name *</label>
+            <label htmlFor="name" style={styles.label}>Your Name *</label>
             <input
+              id="name"
               type="text"
               placeholder="Enter your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={styles.input}
+              autoComplete="name"
+              required
+              aria-invalid={Boolean(error && !name.trim())}
               onFocus={(e) => {
                 e.target.style.borderColor = "rgba(252, 255, 102, 0.5)";
               }}
@@ -284,13 +296,15 @@ export default function Login() {
           </div>
 
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Email (Optional)</label>
+            <label htmlFor="email" style={styles.label}>Email (Optional)</label>
             <input
+              id="email"
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
+              autoComplete="email"
               onFocus={(e) => {
                 e.target.style.borderColor = "rgba(252, 255, 102, 0.5)";
               }}
@@ -300,16 +314,18 @@ export default function Login() {
             />
           </div>
 
-          <div style={styles.roleSection}>
-            <span style={styles.roleLabel}>I am a... *</span>
+          <fieldset style={styles.roleSection}>
+            <legend style={styles.roleLabel}>I am a... *</legend>
             <div style={styles.roleGrid}>
-              <div
+              <button
+                type="button"
                 style={
                   selectedRole === "teacher"
                     ? styles.roleCardSelected
                     : styles.roleCard
                 }
                 onClick={() => setSelectedRole("teacher")}
+                aria-pressed={selectedRole === "teacher"}
               >
                 <div
                   style={{ ...styles.roleIcon, ...styles.roleIconTeacher }}
@@ -331,15 +347,17 @@ export default function Login() {
                 </div>
                 <div style={styles.roleTitle}>Teacher</div>
                 <div style={styles.roleDesc}>Create & host quizzes</div>
-              </div>
+              </button>
 
-              <div
+              <button
+                type="button"
                 style={
                   selectedRole === "student"
                     ? styles.roleCardSelected
                     : styles.roleCard
                 }
                 onClick={() => setSelectedRole("student")}
+                aria-pressed={selectedRole === "student"}
               >
                 <div
                   style={{ ...styles.roleIcon, ...styles.roleIconStudent }}
@@ -361,20 +379,24 @@ export default function Login() {
                 </div>
                 <div style={styles.roleTitle}>Student</div>
                 <div style={styles.roleDesc}>Join & play quizzes</div>
-              </div>
+              </button>
             </div>
-          </div>
+          </fieldset>
 
-          {error && <div style={styles.errorBox}>{error}</div>}
+          {error && (
+            <div role="alert" aria-live="polite" style={styles.errorBox}>
+              {error}
+            </div>
+          )}
 
           <button
-            onClick={handleLogin}
+            type="submit"
             disabled={loading}
             style={styles.button}
           >
             {loading ? "Signing in..." : "Continue"}
           </button>
-        </div>
+        </form>
 
         <div style={styles.footer}>
           <p style={styles.footerText}>
@@ -382,6 +404,6 @@ export default function Login() {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
