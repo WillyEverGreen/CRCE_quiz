@@ -237,16 +237,6 @@ export default function Login() {
       fontSize: "12px",
       color: "rgba(255, 255, 255, 0.4)",
     },
-    devBadge: {
-      display: "inline-block",
-      padding: "4px 12px",
-      backgroundColor: "rgba(252, 255, 102, 0.1)",
-      border: "1px solid rgba(252, 255, 102, 0.3)",
-      borderRadius: "20px",
-      fontSize: "11px",
-      color: "#fcff66",
-      marginBottom: "18px",
-    },
   };
 
   return (
@@ -256,7 +246,6 @@ export default function Login() {
 
       <div style={styles.card}>
         <div style={styles.logoContainer}>
-          <div style={styles.devBadge}>Development Mode</div>
           <div style={styles.logoRow}>
             <svg
               style={styles.logoIcon}
@@ -398,11 +387,6 @@ export default function Login() {
           </button>
         </form>
 
-        <div style={styles.footer}>
-          <p style={styles.footerText}>
-            This is a development build. Google authentication is disabled.
-          </p>
-        </div>
       </div>
     </main>
   );

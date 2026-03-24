@@ -15,6 +15,9 @@ export default function LandingPage() {
 
   // Load external resources (CSS files and icons)
   useEffect(() => {
+    // Enable smooth scrolling for hash links
+    document.documentElement.style.scrollBehavior = 'smooth';
+
     // Load Phosphor Icons script
     const script = document.createElement('script');
     script.src = 'https://unpkg.com/@phosphor-icons/web';
@@ -50,6 +53,7 @@ export default function LandingPage() {
 
     // Cleanup function to remove all added elements when component unmounts
     return () => {
+      document.documentElement.style.scrollBehavior = '';
       if (script.parentNode) script.parentNode.removeChild(script);
       if (fontLink1.parentNode) fontLink1.parentNode.removeChild(fontLink1);
       if (fontLink2.parentNode) fontLink2.parentNode.removeChild(fontLink2);
@@ -136,7 +140,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="clients">
+      <section className="clients" id="institutes">
         <div className="container">
           <p>
             Schools, coaching centers, and campus clubs trust CRCEQuiz to run
@@ -171,7 +175,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="cta-1">
+      <section className="cta-1" id="about">
         <div className="container">
           <div className="col">
             <p id="callout">Live Session Control</p>
@@ -193,7 +197,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="why-pro">
+      <section className="why-pro" id="pricing">
         <div className="container">
           <h2>Why CRCEQuiz</h2>
           <p className="copy">
@@ -404,7 +408,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="onebit">
+      <section className="onebit" id="stories">
         <div className="container">
           <div className="ob-logo">
             <img
